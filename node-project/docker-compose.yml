@@ -10,3 +10,5 @@ services:
             - "8000:8000"
             # defines the restart condition - default is never
         restart: "on-failure"
+        environment: 
+            

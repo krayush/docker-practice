@@ -1,0 +1,26 @@
+version: '3.5'
+services: 
+    redis-server: 
+        image: 'redis:latest'
+        # ports:
+            # - "6379:6379"
+        command: sh -c "redis-server --requirepass \"${REDIS_PASSWORD}\" --appendonly yes"
+        # Specifying the environment file here
+        env_file: 
+            - dev-environment.env
+        volumes:
+            - /tmp/data:/data
+    node-app:
+        build: 
+            dockerfile: Dockerfile.Dev
+            context: ./server
+        # port mapping similar to 'docker run' command
+        ports:
+            - "8000:8000"
+            # defines the restart condition - default is never
+        restart: "on-failure"
+        # Specifying the environment file here
+        env_file: 
+            - dev-environment.env
+        
+            

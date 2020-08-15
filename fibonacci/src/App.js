@@ -11,9 +11,10 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>
-          No. of users visiting the application: {currentVisits}
-        </p>
+        <p>No. of users visiting the application: </p>
+        <p>{currentVisits}</p>
+        <p>{currentVisits}</p>
+        <p>{currentVisits}</p>
       </header>
     </div>
   );

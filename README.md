@@ -10,3 +10,8 @@ docker-compose down -v
 ```
 docker-compose up --build
 ```
+
+- Use dev with hot-reload
+```
+docker-compose -f ./docker-compose.dev.yml up --build
+```

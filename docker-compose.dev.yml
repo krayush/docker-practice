@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+
+    client:
+        build:
+            dockerfile: Dockerfile.Dev
+            context: ./fibonacci
+        stdin_open: true
+        volumes:
+            - /tmp/src/node_modules
+            - ./fibonacci:/tmp/app/
+
+    redis-server: 
+        image: 'redis:latest'
+        # Specifying the environment file here
+        command: sh -c "redis-server --requirepass \"${REDIS_PASSWORD}\" --appendonly yes"
+        environment: 
+            - REDIS_PASSWORD
+            
+    node-app:
+        build:
+            dockerfile: Dockerfile.Dev
+            context: ./server
+        # defines the restart condition - default is never
+        restart: "on-failure"
+        # Specifying the environment file here
+        environment: 
+            - TMP_PATH
+            - REDIS_PASSWORD
+            - REDIS_PORT
+            - REDIS_HOST
+    nginx:
+        # image: nginx:latest
+        
+        build: 
+            context: ./nginx
+        ports:
+            - "8080:80"
+        command: [nginx-debug, '-g', 'daemon off;']
+
+volumes:
+    cra-volume:
+        external: false

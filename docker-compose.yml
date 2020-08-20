@@ -1,16 +1,16 @@
 version: '3.7'
 
 services:
-
-    client-build:
+    # Running on 3000 port via nginx
+    client:
         build:
             context: ./fibonacci
-        volumes:
-            - cra-volume:${TMP_PATH}/build
+        # volumes:
+            # - cra-volume:${TMP_PATH}/build
         environment:
             - NODE_ENV
             - TMP_PATH
-
+    
     redis-server: 
         image: 'redis:latest'
         # Specifying the environment file here
@@ -19,25 +19,32 @@ services:
             - /tmp/data:/data
         environment: 
             - REDIS_PASSWORD
-            
+
+    # Running on 8000 port
     node-app:
         build: 
             dockerfile: Dockerfile.Dev
             context: ./server
         # port mapping similar to 'docker run' command
-        ports:
-            - "8000:8000"
+        # ports:
+            # - "8000:8000"
             # defines the restart condition - default is never
         restart: "on-failure"
         # Specifying the environment file here
-        volumes: 
-            - cra-volume:${TMP_PATH}/public
+        # volumes: 
+            # - cra-volume:${TMP_PATH}/public
         environment: 
             - TMP_PATH
             - REDIS_PASSWORD
             - REDIS_PORT
             - REDIS_HOST
-
-volumes:
-    cra-volume:
-        external: false
+            
+    nginx:
+        build: 
+            context: ./nginx
+        ports:
+            - "8080:80"
+        command: [nginx-debug, '-g', 'daemon off;']
+# volumes:
+#     cra-volume:
+#         external: false

@@ -1,0 +1,20 @@
+sudo: required
+services:
+    - docker
+
+before_install:
+    # Using dev version as we won't be able to run test on prod version
+    - docker build -t krayush/docker/fibonacci -f Dockerfile.Dev .
+
+scripts:
+    - docker run krayush/docker/fibonacci npm run test:coverage
+
+after_success:
+    - docker build -t krayush/docker-client ./fibonacci
+    - docker build -t krayush/docker-nginx ./nginx
+    - docker build -t krayush/docker-server ./server
+    # Push images to docker hub
+    - echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_ID" --password-stdin
+    - docker push krayush/docker-client
+    - docker push krayush/docker-nginx
+    - docker push krayush/docker-server

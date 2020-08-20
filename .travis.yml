@@ -4,7 +4,7 @@ services:
 
 before_install:
     # Using dev version as we won't be able to run test on prod version
-    - docker build -t krayush/docker/fibonacci -f Dockerfile.Dev fibonacci/.
+    - docker build -t krayush/docker/fibonacci -f ./fibonacci/Dockerfile.Dev fibonacci/.
 
 scripts:
     - docker run krayush/docker/fibonacci npm run test:coverage

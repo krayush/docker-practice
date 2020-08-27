@@ -23,7 +23,7 @@ services:
     # Running on 8000 port
     node-app:
         build: 
-            dockerfile: Dockerfile.Dev
+            # dockerfile: Dockerfile.Dev
             context: ./server
         # port mapping similar to 'docker run' command
         # ports:

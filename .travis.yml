@@ -17,3 +17,13 @@ after_success:
     - docker push krayush/docker-client
     - docker push krayush/docker-nginx
     - docker push krayush/docker-server
+
+deploy:
+    provider: elasticbeanstalk
+    access_key_id: ${access_key_id}
+    secret_access_key: ${secret_access_key}
+    region: "ap-south-1"
+    app: "multi-docker-app"
+    env: "MultiDockerApp-env"
+    bucket_name: "${s3_bucket}"
+    

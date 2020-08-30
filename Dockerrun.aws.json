@@ -1,0 +1,33 @@
+{
+    "AWSEBDockerrunVersion": 1,
+    "containerDefinitions": [
+        {
+            "name": "client",
+            "image": "krayush/docker-client",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "node-app",
+            "image": "krayush/docker-server",
+            "essential": false,
+            "memory": 128
+        },
+        {
+            "name": "nginx",
+            "image": "krayush/docker-nginx",
+            "essential": true,
+            "memory": 128,
+            "links": [
+                "node-app",
+                "client"
+            ],
+            "portMappings": [
+                {
+                    "hostPort": 80,
+                    "containerPort": 80
+                }
+            ]
+        }
+    ]
+}
